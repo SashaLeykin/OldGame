@@ -1,7 +1,13 @@
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <iostream>
 
 int main(void)
 {
+    setlocale(LC_ALL, "ru");
+    //Объект GLFWwindow инкапсулирует как окно, так и контекст. Они создаются с помощью 
+    //glfwCreateWindow и уничтожаются с помощью glfwDestroyWindow.
     GLFWwindow* window;
 
     /* Initialize the library Инициализировать библиотеку */
@@ -27,12 +33,25 @@ int main(void)
     glfwMakeContextCurrent - glfw Сделать контекст текущим*/
     glfwMakeContextCurrent(window);
 
+    //инициализация glad
+    if (!gladLoadGL())
+    {
+        std::cout << "Can't load GLAD! Не могу загрузить GLAD!" << std::endl;
+        return -1;
+    }
+    //выводим на экран консоли версию OpenGL
+    std::cout << "OpenGL " << GLVersion.major << "." << GLVersion.minor << std::endl;
+
+    //изменение цвета окна Функция glClearColor задает четкие значения для цветовых буферов.
+    glClearColor(0, 1, 0, 1);
+
     /* Loop until the user closes the window Цикл, пока пользователь не закроет окно
     glfwWindowShouldClose - Окно glfw должно закрыться*/
     while (!glfwWindowShouldClose(window))
     {
-        /* Render here Рендер здесь*/
-       //glClear(GL_COLOR_BUFFER_BIT);
+        /* Render here Рендер здесь glClear устанавливает область битовой плоскости окна 
+        на значения, ранее выбранные с помощью glClearColor, glClearDepth и glClearStencil.*/
+       glClear(GL_COLOR_BUFFER_BIT);
 
         /* Swap front and back buffers Поменять местами передний и задний буфера*/
         glfwSwapBuffers(window);
